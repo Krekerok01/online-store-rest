@@ -26,6 +26,9 @@ public class UserServiceImpl implements UserService {
     private AuthenticationManager authenticationManager;
     private JwtUtils jwtUtils;
 
+    private int authUserId;
+    private String authUserUsername;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
@@ -41,8 +44,12 @@ public class UserServiceImpl implements UserService {
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+        initializationAuthUsernameAndId(userDetails);
+
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail()));
     }
+
+
 
     @Override
     public ResponseEntity<?> registerUser(SignupRequest signupRequest) {
@@ -55,6 +62,19 @@ public class UserServiceImpl implements UserService {
         createAndSaveUser(signupRequest);
 
         return ResponseEntity.ok(new MessageResponse("User CREATED"));
+    }
+
+    private void initializationAuthUsernameAndId(UserDetailsImpl userDetails) {
+        authUserUsername = userDetails.getUsername();
+        authUserId = userDetails.getId();
+    }
+
+    public int getAuthUserId() {
+        return authUserId;
+    }
+
+    public String getAuthUserUsername() {
+        return authUserUsername;
     }
 
     private Authentication getAuthentication(LoginRequest loginRequest) {
