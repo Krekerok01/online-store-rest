@@ -55,10 +55,23 @@ public class ProductServiceImpl implements ProductService {
 
 
 
-    //    @Override
-//    public ResponseEntity<?> deleteProductById(int id) {
-//        return null;
-//    }
+    @Override
+    public ResponseEntity<?> deleteProductById(int id) {
+
+        Optional<Product> optionalProduct = productRepository.findById(id);
+
+        if(!optionalProduct.isPresent()){
+            return ResponseEntity.status(401).body(new MessageResponse("Product NOT FOUND"));
+        }
+
+        if(!(optionalProduct.get().getStatus().equals(ProductsStatus.OUT_OF_STOCK.toString()))){
+            return ResponseEntity.status(401).body(new MessageResponse("You can't delete product with status IN_STOCK or RUNNING_LOW"));
+        }
+
+        productRepository.deleteById(id);
+
+        return ResponseEntity.ok(new MessageResponse("Product DELETED"));
+    }
 //
 //    @Override
 //    public ResponseEntity<?> deleteProductByName(String productName) {

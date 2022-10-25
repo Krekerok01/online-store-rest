@@ -7,7 +7,7 @@ public interface ProductService {
 
     ResponseEntity<?> addProduct(AddProductRequest addProductRequest);
 
-//    ResponseEntity<?> deleteProductById(int id);
+    ResponseEntity<?> deleteProductById(int id);
 //
 //    ResponseEntity<?> deleteProductByName(String productName);
 //
