@@ -23,4 +23,10 @@ public class ProductController {
     public ResponseEntity<?> addProduct(@RequestBody AddProductRequest addProductRequest) {
         return productService.addProduct(addProductRequest);
     }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<?> getProduct(@PathVariable int id) {
+        return productService.getProductById(id);
+    }
+
 }

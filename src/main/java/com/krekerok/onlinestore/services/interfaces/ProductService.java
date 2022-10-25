@@ -11,5 +11,5 @@ public interface ProductService {
 //
 //    ResponseEntity<?> deleteProductByName(String productName);
 //
-//    ResponseEntity<?> getProductById(int id);
+    ResponseEntity<?> getProductById(int id);
 }
