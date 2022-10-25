@@ -1,6 +1,6 @@
 package com.krekerok.onlinestore.contollers;
 
-import com.krekerok.onlinestore.dto.requests.AddProductRequest;
+import com.krekerok.onlinestore.dto.requests.ProductRequest;
 import com.krekerok.onlinestore.dto.responses.ProductResponse;
 import com.krekerok.onlinestore.services.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,13 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addProduct(@RequestBody AddProductRequest addProductRequest) {
-        return productService.addProduct(addProductRequest);
+    public ResponseEntity<?> addProduct(@RequestBody ProductRequest productRequest) {
+        return productService.addProduct(productRequest);
+    }
+
+    @PostMapping("/update/{id}")
+    public ResponseEntity<?> addProduct(@PathVariable int id, @RequestBody ProductRequest productRequest) {
+        return productService.updateProduct(id, productRequest);
     }
 
     @GetMapping("/product/{id}")

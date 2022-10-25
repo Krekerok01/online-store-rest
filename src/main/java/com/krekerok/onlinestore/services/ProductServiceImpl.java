@@ -2,7 +2,7 @@ package com.krekerok.onlinestore.services;
 
 import com.krekerok.onlinestore.entities.Product;
 import com.krekerok.onlinestore.entities.ProductsStatus;
-import com.krekerok.onlinestore.dto.requests.AddProductRequest;
+import com.krekerok.onlinestore.dto.requests.ProductRequest;
 import com.krekerok.onlinestore.dto.responses.MessageResponse;
 import com.krekerok.onlinestore.dto.responses.ProductResponse;
 import com.krekerok.onlinestore.repositories.ProductRepository;
@@ -52,22 +52,38 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ResponseEntity<?> addProduct(AddProductRequest addProductRequest) {
+    public ResponseEntity<?> addProduct(ProductRequest productRequest) {
 
-        if (productRepository.existsByName(addProductRequest.getName()))
+        if (productRepository.existsByName(productRequest.getName()))
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Product is exist"));
 
-        Product product = new Product(addProductRequest.getName(), addProductRequest.getPrice(), getRandomStatus(), new Date());
+        Product product = new Product(productRequest.getName(), productRequest.getPrice(), getRandomStatus(), new Date());
         productRepository.save(product);
 
         return ResponseEntity.ok(new MessageResponse("Product ADDED"));
     }
+
+
 
     private String getRandomStatus(){
         int a = (int) (Math.random() * (ProductsStatus.values().length));
         return String.valueOf(ProductsStatus.values()[a]);
     }
 
+
+    @Override
+    public ResponseEntity<?> updateProduct(int id, ProductRequest productRequest) {
+
+        if (!productRepository.existsById(id))
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Product is not exist"));
+
+        Product product = productRepository.findById(id).get();
+        product.setName(productRequest.getName());
+        product.setPrice(productRequest.getPrice());
+        productRepository.save(product);
+
+        return ResponseEntity.ok(new MessageResponse("Product UPDATED"));
+    }
 
 
     @Override
