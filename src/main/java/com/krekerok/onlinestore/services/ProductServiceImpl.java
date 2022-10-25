@@ -77,12 +77,15 @@ public class ProductServiceImpl implements ProductService {
         if (!productRepository.existsById(id))
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Product is not exist"));
 
-        Product product = productRepository.findById(id).get();
-        product.setName(productRequest.getName());
-        product.setPrice(productRequest.getPrice());
-        productRepository.save(product);
+        setNewDataToTheProductAndSaveIt(productRepository.findById(id).get(), productRequest.getName(), productRequest.getPrice());
 
         return ResponseEntity.ok(new MessageResponse("Product UPDATED"));
+    }
+
+    private void setNewDataToTheProductAndSaveIt(Product product, String name, int price) {
+        product.setName(name);
+        product.setPrice(price);
+        productRepository.save(product);
     }
 
 
