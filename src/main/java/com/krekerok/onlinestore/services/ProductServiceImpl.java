@@ -26,11 +26,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<?> getProductById(int id) {
+
         Optional<Product> optionalProduct = productRepository.findById(id);
 
-        if(!optionalProduct.isPresent()){
+        if(!optionalProduct.isPresent())
             return ResponseEntity.status(401).body(new MessageResponse("Product NOT FOUND"));
-        }
 
         Product product = optionalProduct.get();
         return  ResponseEntity.ok(new ProductResponse(id, product.getName(), product.getPrice(), product.getStatus(), product.getCreatedAt()));
@@ -42,14 +42,15 @@ public class ProductServiceImpl implements ProductService {
         if (productRepository.existsByName(addProductRequest.getName()))
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Product is exist"));
 
-        int a = (int) (Math.random() * (ProductsStatus.values().length));
-        String status = String.valueOf(ProductsStatus.values()[a]);
-
-
-        Product product = new Product(addProductRequest.getName(), addProductRequest.getPrice(), status, new Date());
+        Product product = new Product(addProductRequest.getName(), addProductRequest.getPrice(), getRandomStatus(), new Date());
         productRepository.save(product);
 
         return ResponseEntity.ok(new MessageResponse("Product ADDED"));
+    }
+
+    private String getRandomStatus(){
+        int a = (int) (Math.random() * (ProductsStatus.values().length));
+        return String.valueOf(ProductsStatus.values()[a]);
     }
 
 
@@ -59,16 +60,13 @@ public class ProductServiceImpl implements ProductService {
 
         Optional<Product> optionalProduct = productRepository.findById(id);
 
-        if(!optionalProduct.isPresent()){
+        if(!optionalProduct.isPresent())
             return ResponseEntity.status(401).body(new MessageResponse("Product NOT FOUND"));
-        }
 
-        if(!(optionalProduct.get().getStatus().equals(ProductsStatus.OUT_OF_STOCK.toString()))){
+        if(!(optionalProduct.get().getStatus().equals(ProductsStatus.OUT_OF_STOCK.toString())))
             return ResponseEntity.status(401).body(new MessageResponse("You can't delete product with status IN_STOCK or RUNNING_LOW"));
-        }
 
         productRepository.deleteById(id);
-
         return ResponseEntity.ok(new MessageResponse("Product DELETED"));
     }
 
