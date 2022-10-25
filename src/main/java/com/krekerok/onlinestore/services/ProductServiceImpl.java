@@ -9,10 +9,13 @@ import com.krekerok.onlinestore.repositories.ProductRepository;
 import com.krekerok.onlinestore.services.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -35,6 +38,8 @@ public class ProductServiceImpl implements ProductService {
         Product product = optionalProduct.get();
         return  ResponseEntity.ok(new ProductResponse(id, product.getName(), product.getPrice(), product.getStatus(), product.getCreatedAt()));
     }
+
+
 
     @Override
     public ResponseEntity<?> addProduct(AddProductRequest addProductRequest) {
@@ -70,6 +75,16 @@ public class ProductServiceImpl implements ProductService {
         return ResponseEntity.ok(new MessageResponse("Product DELETED"));
     }
 
+    @Override
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
 
+        List<ProductResponse> products = productRepository.findAll()
+                .stream()
+                .map((product ->
+                        new ProductResponse(product.getId(), product.getName(), product.getPrice(), product.getStatus(), product.getCreatedAt())))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(products);
+    }
 
 }

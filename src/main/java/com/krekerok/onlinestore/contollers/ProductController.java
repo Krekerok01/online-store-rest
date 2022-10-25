@@ -1,10 +1,13 @@
 package com.krekerok.onlinestore.contollers;
 
 import com.krekerok.onlinestore.dto.requests.AddProductRequest;
+import com.krekerok.onlinestore.dto.responses.ProductResponse;
 import com.krekerok.onlinestore.services.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -33,4 +36,8 @@ public class ProductController {
         return productService.deleteProductById(id);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<ProductResponse>> getAllProducts(){
+        return productService.getAllProducts();
+    }
 }
