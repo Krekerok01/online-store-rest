@@ -1,6 +1,6 @@
 package com.krekerok.onlinestore.services.interfaces;
 
-import com.krekerok.onlinestore.pojo.AddProductRequest;
+import com.krekerok.onlinestore.dto.requests.AddProductRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface ProductService {
@@ -8,8 +8,6 @@ public interface ProductService {
     ResponseEntity<?> addProduct(AddProductRequest addProductRequest);
 
     ResponseEntity<?> deleteProductById(int id);
-//
-//    ResponseEntity<?> deleteProductByName(String productName);
-//
+
     ResponseEntity<?> getProductById(int id);
 }

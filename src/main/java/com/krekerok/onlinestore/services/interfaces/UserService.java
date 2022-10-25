@@ -1,8 +1,8 @@
 package com.krekerok.onlinestore.services.interfaces;
 
 
-import com.krekerok.onlinestore.pojo.LoginRequest;
-import com.krekerok.onlinestore.pojo.SignupRequest;
+import com.krekerok.onlinestore.dto.requests.LoginRequest;
+import com.krekerok.onlinestore.dto.requests.SignupRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {

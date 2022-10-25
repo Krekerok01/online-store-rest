@@ -2,10 +2,9 @@ package com.krekerok.onlinestore.services;
 
 import com.krekerok.onlinestore.entities.Product;
 import com.krekerok.onlinestore.entities.ProductsStatus;
-import com.krekerok.onlinestore.entities.User;
-import com.krekerok.onlinestore.pojo.AddProductRequest;
-import com.krekerok.onlinestore.pojo.MessageResponse;
-import com.krekerok.onlinestore.pojo.ProductResponse;
+import com.krekerok.onlinestore.dto.requests.AddProductRequest;
+import com.krekerok.onlinestore.dto.responses.MessageResponse;
+import com.krekerok.onlinestore.dto.responses.ProductResponse;
 import com.krekerok.onlinestore.repositories.ProductRepository;
 import com.krekerok.onlinestore.services.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,11 +71,7 @@ public class ProductServiceImpl implements ProductService {
 
         return ResponseEntity.ok(new MessageResponse("Product DELETED"));
     }
-//
-//    @Override
-//    public ResponseEntity<?> deleteProductByName(String productName) {
-//        return null;
-//    }
+
 
 
 }

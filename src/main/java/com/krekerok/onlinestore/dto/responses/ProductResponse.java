@@ -1,4 +1,4 @@
-package com.krekerok.onlinestore.pojo;
+package com.krekerok.onlinestore.dto.responses;
 
 import lombok.Getter;
 import lombok.Setter;

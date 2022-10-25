@@ -3,10 +3,10 @@ package com.krekerok.onlinestore.services;
 
 import com.krekerok.onlinestore.configs.jwt.JwtUtils;
 import com.krekerok.onlinestore.entities.User;
-import com.krekerok.onlinestore.pojo.JwtResponse;
-import com.krekerok.onlinestore.pojo.LoginRequest;
-import com.krekerok.onlinestore.pojo.MessageResponse;
-import com.krekerok.onlinestore.pojo.SignupRequest;
+import com.krekerok.onlinestore.dto.responses.JwtResponse;
+import com.krekerok.onlinestore.dto.requests.LoginRequest;
+import com.krekerok.onlinestore.dto.responses.MessageResponse;
+import com.krekerok.onlinestore.dto.requests.SignupRequest;
 import com.krekerok.onlinestore.repositories.UserRepository;
 import com.krekerok.onlinestore.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

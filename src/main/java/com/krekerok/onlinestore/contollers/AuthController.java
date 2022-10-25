@@ -1,7 +1,7 @@
 package com.krekerok.onlinestore.contollers;
 
-import com.krekerok.onlinestore.pojo.LoginRequest;
-import com.krekerok.onlinestore.pojo.SignupRequest;
+import com.krekerok.onlinestore.dto.requests.LoginRequest;
+import com.krekerok.onlinestore.dto.requests.SignupRequest;
 import com.krekerok.onlinestore.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
