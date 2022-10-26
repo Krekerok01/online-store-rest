@@ -36,16 +36,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseEntity<?> createOrder(OrderRequest orderRequest, String jwt) {
-
         User user = userService.getUserByUsername(jwtUtils.getUserNameFromJwtToken(jwt));
         Order order = new Order(user.getId(), getRandomOrderStatus(), new Date());
         orderRepository.save(order);
 
-        for (int i = 0; i < 10; i++){
-            System.out.println(getRandomOrderStatus());
-        }
+        for (ProductAndQuantity productAndQuantity: orderRequest.getOrder()){
+            Product product = productService.getProductByProductId(productAndQuantity.getProductId());
+            if(!(product.getStatus().equals(ProductsStatus.OUT_OF_STOCK.toString())))
+                return ResponseEntity.status(401).body(new MessageResponse("You can't add a product to an order that isn't in stock"));
 
-        fillOrderItemsTableWithDataFromRequest(orderRequest, order);
+            OrderItems orderItems = new OrderItems(order,product, productAndQuantity.getQuantity());
+            orderItemsRepository.save(orderItems);
+        }
 
         return ResponseEntity.ok(new MessageResponse("Order CREATED"));
     }
@@ -55,11 +57,4 @@ public class OrderServiceImpl implements OrderService {
         return String.valueOf(OrdersStatus.values()[a]);
     }
 
-    private void fillOrderItemsTableWithDataFromRequest(OrderRequest orderRequest, Order order) {
-        for (ProductAndQuantity productAndQuantity: orderRequest.getOrder()){
-            Product product = productService.getProductByProductId(productAndQuantity.getProductId());
-            OrderItems orderItems = new OrderItems(order,product, productAndQuantity.getQuantity());
-            orderItemsRepository.save(orderItems);
-        }
-    }
 }
