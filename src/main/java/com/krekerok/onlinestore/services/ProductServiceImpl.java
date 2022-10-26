@@ -50,6 +50,16 @@ public class ProductServiceImpl implements ProductService {
         return ResponseEntity.ok(products);
     }
 
+    @Override
+    public Product getProductByProductId(int id) {
+        Optional<Product> product = productRepository.findById(id);
+
+        if (!product.isPresent())
+            throw new RuntimeException("Product not found");
+
+        return product.get();
+    }
+
 
     @Override
     public ResponseEntity<?> addProduct(ProductRequest productRequest) {

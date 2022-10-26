@@ -2,6 +2,7 @@ package com.krekerok.onlinestore.services.interfaces;
 
 import com.krekerok.onlinestore.dto.requests.ProductRequest;
 import com.krekerok.onlinestore.dto.responses.ProductResponse;
+import com.krekerok.onlinestore.entities.Product;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface ProductService {
     ResponseEntity<?> getProductById(int id);
 
     ResponseEntity<List<ProductResponse>> getAllProducts();
+
+    Product getProductByProductId(int id);
 
 
 }

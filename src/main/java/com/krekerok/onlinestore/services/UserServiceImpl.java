@@ -15,8 +15,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -45,8 +48,6 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail()));
     }
 
-
-
     @Override
     public ResponseEntity<?> registerUser(SignupRequest signupRequest) {
         if (userRepository.existsByUsername(signupRequest.getUsername()))
@@ -60,6 +61,16 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.ok(new MessageResponse("User CREATED"));
     }
 
+    @Override
+    public User getUserByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (!user.isPresent())
+            throw new UsernameNotFoundException("User with username - " + username + " - not found.");
+
+        return user.get();
+    }
+
 
     private Authentication getAuthentication(LoginRequest loginRequest) {
         return authenticationManager
@@ -70,4 +81,7 @@ public class UserServiceImpl implements UserService {
         User user = new User(signupRequest.getUsername(), passwordEncoder.encode(signupRequest.getPassword()), signupRequest.getEmail());
         userRepository.save(user);
     }
+
+
+
 }
