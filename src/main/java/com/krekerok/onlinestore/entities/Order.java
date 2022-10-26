@@ -5,11 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
@@ -26,11 +27,20 @@ public class Order {
     private String status;
 
     @Column(name = "created_at")
-    private String createdAt;
+    private Date createdAt;
 
-    public Order(int userId, String status, String createdAt) {
+    public Order(int userId, String status, Date createdAt) {
         this.userId = userId;
         this.status = status;
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "userId=" + userId +
+                ", status='" + status + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
