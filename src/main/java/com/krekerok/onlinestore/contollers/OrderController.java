@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class OrderController {
 
@@ -23,6 +23,11 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest, HttpServletRequest request) {
         return orderService.createOrder(orderRequest,  request.getHeader("Authorization").substring(7));
+    }
+
+    @DeleteMapping("/order/{id}")
+    public ResponseEntity<?> deleteOrder(@PathVariable int id) {
+        return orderService.deleteOrderById(id);
     }
 
 }

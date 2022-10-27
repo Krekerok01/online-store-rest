@@ -5,5 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface OrderService {
 
-    public ResponseEntity<?> createOrder(OrderRequest orderRequest, String jwt);
+    ResponseEntity<?> createOrder(OrderRequest orderRequest, String jwt);
+
+    ResponseEntity<?> deleteOrderById(int id);
 }

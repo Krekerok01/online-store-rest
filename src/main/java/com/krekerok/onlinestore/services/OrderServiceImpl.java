@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -50,6 +52,22 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return ResponseEntity.ok(new MessageResponse("Order CREATED"));
+    }
+
+    @Override
+    public ResponseEntity<?> deleteOrderById(int id) {
+        Optional<Order> optionalOrder= orderRepository.findById(id);
+
+        if(!optionalOrder.isPresent())
+            return ResponseEntity.status(401).body(new MessageResponse("Order with id - " + id + " -  NOT FOUND"));
+
+        List<OrderItems> oi = orderItemsRepository.findOrderItemsByOrderId(id);
+        for (OrderItems o : oi){
+            orderItemsRepository.deleteById(o.getId());
+        }
+
+        orderRepository.deleteById(id);
+        return ResponseEntity.ok(new MessageResponse("Order DELETED"));
     }
 
     private String getRandomOrderStatus(){
