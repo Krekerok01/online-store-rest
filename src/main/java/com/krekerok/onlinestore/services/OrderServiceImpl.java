@@ -56,18 +56,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseEntity<?> deleteOrderById(int id) {
+
         Optional<Order> optionalOrder= orderRepository.findById(id);
 
         if(!optionalOrder.isPresent())
             return ResponseEntity.status(401).body(new MessageResponse("Order with id - " + id + " -  NOT FOUND"));
 
-        List<OrderItems> oi = orderItemsRepository.findOrderItemsByOrderId(id);
-        for (OrderItems o : oi){
-            orderItemsRepository.deleteById(o.getId());
-        }
-
+        deleteDataFromOrderItemsTableByOrderId(id);
         orderRepository.deleteById(id);
+
         return ResponseEntity.ok(new MessageResponse("Order DELETED"));
+    }
+
+    private void deleteDataFromOrderItemsTableByOrderId(int id) {
+        for (OrderItems orderItems : orderItemsRepository.findOrderItemsByOrderId(id)){
+            orderItemsRepository.deleteById(orderItems.getId());
+        }
     }
 
     private String getRandomOrderStatus(){
